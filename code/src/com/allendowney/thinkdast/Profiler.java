@@ -53,6 +53,10 @@ public class Profiler extends ApplicationFrame {
 		this.timeable = timeable;
 	}
 
+	public XYSeries timingLoop(int startN, int endMillis) {
+		return timingLoop(startN, endMillis, true);
+	}
+
 	/**
 	 * Invokes timeIt with a range of `n` from `startN` until runtime exceeds `endMillis`.
 	 *
@@ -60,7 +64,7 @@ public class Profiler extends ApplicationFrame {
 	 * @param n
 	 * @return
 	 */
-	public XYSeries timingLoop(int startN, int endMillis) {
+	public XYSeries timingLoop(int startN, int endMillis, boolean print) {
         final XYSeries series = new XYSeries("Time (ms)");
 
 		int n = startN;
@@ -75,7 +79,9 @@ public class Profiler extends ApplicationFrame {
 			for (int j=0; j<10; j++) {
 				total += timeIt(n);
 			}
-			System.out.println(n + ", " + total);
+			if(print) {
+				System.out.println(n + ", " + total);
+			}
 
 			// don't store data until we get to 4ms
 			if (total > 4) {
