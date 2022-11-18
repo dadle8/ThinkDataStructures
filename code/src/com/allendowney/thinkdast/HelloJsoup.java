@@ -18,7 +18,7 @@ public class HelloJsoup {
 	public static void main(String[] args) throws IOException {
 		
 		String dirname = System.getProperty("user.dir");
-		String filename = "src/resources/en.wikipedia.org/wiki/Computer_science";
+		String filename = "code/src/resources/en.wikipedia.org/wiki/Computer_science";
 		String baseURI = dirname + "/" + filename;
 
 		File input = new File(baseURI);
