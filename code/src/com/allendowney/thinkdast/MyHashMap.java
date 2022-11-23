@@ -59,7 +59,7 @@ public class MyHashMap<K, V> extends MyBetterMap<K, V> implements Map<K, V> {
 	public static void main(String[] args) {
 		Map<String, Integer> map = new MyHashMap<String, Integer>();
 		for (int i=0; i<10; i++) {
-			map.put(new Integer(i).toString(), i);
+			map.put(Integer.toString(i), i);
 		}
 		Integer value = map.get("3");
 		System.out.println(value);
