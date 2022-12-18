@@ -13,9 +13,9 @@ public class ProfileMapPut {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//profileHashMapPut();
-		//profileMyHashMapPut();
-		profileMyFixedHashMapPut();
+//		profileHashMapPut();
+		profileMyHashMapPut();
+//		profileMyFixedHashMapPut();
 	}
 
 	/**

@@ -71,7 +71,17 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 		@SuppressWarnings("unchecked")
 		Comparable<? super K> k = (Comparable<? super K>) target;
 
-		// TODO: FILL THIS IN!
+		Node node = root;
+		while (node != null) {
+			int c = k.compareTo(node.key);
+
+			if (c < 0)
+				node = node.left;
+			else if (c > 0)
+				node = node.right;
+			else
+				return node;
+		}
 		return null;
 	}
 
@@ -95,8 +105,18 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	}
 
 	private boolean containsValueHelper(Node node, Object target) {
-		// TODO: FILL THIS IN!
-		return false;
+		if (node == null) {
+			return false;
+		}
+		if (equals(node.value, target)) {
+			return true;
+		} else {
+			if (containsValueHelper(node.left, target)) {
+				return true;
+			} else {
+				return containsValueHelper(node.right, target);
+			}
+		}
 	}
 
 	@Override
@@ -121,8 +141,17 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	@Override
 	public Set<K> keySet() {
 		Set<K> set = new LinkedHashSet<K>();
-		// TODO: FILL THIS IN!
+		keyHelper(root, set);
 		return set;
+	}
+
+	public void keyHelper(Node node, Set<K> keySet) {
+		if (node == null) {
+			return;
+		}
+		keyHelper(node.left, keySet);
+		keySet.add(node.key);
+		keyHelper(node.right, keySet);
 	}
 
 	@Override
@@ -139,7 +168,30 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 	}
 
 	private V putHelper(Node node, K key, V value) {
-		// TODO: FILL THIS IN!
+		// something to make the compiler happy
+		@SuppressWarnings("unchecked")
+		Comparable<? super K> k = (Comparable<? super K>) key;
+
+		int compareKey = k.compareTo(node.key);
+		if (compareKey == 0) {
+			V oldValue = node.value;
+			node.value = value;
+			return oldValue;
+		} else if (compareKey > 0) {
+			if (node.right == null) {
+				node.right = new Node(key, value);
+				size++;
+			} else {
+				putHelper(node.right, key, value);
+			}
+		} else {
+			if (node.left == null) {
+				node.left = new Node(key, value);
+				size++;
+			} else {
+				putHelper(node.left, key, value);
+			}
+		}
 		return null;
 	}
 
