@@ -204,8 +204,73 @@ public class MyTreeMap<K, V> implements Map<K, V> {
 
 	@Override
 	public V remove(Object key) {
-		// OPTIONAL TODO: FILL THIS IN!
-		throw new UnsupportedOperationException();
+		root = deleteNode(root, key);
+		return null;
+	}
+
+	private Node deleteNode(Node root, Object key) {
+		// Base case
+		if (root == null)
+			return root;
+
+		@SuppressWarnings("unchecked")
+		Comparable<? super K> k = (Comparable<? super K>) key;
+		int compare = k.compareTo(root.key);
+
+		// Recursive calls for ancestors of
+		// node to be deleted
+		if (compare < 0) {
+			root.left = deleteNode(root.left, key);
+			return root;
+		}
+		else if (compare > 0) {
+			root.right = deleteNode(root.right, key);
+			return root;
+		}
+
+		// We reach here when root is the node
+		// to be deleted.
+
+		// If one of the children is empty
+		if (root.left == null) {
+			size--;
+			return root.right;
+		}
+		else if (root.right == null) {
+			size--;
+			return root.left;
+		}
+
+		// If both children exist
+		else {
+			Node succParent = root;
+
+			// Find successor
+			Node succ = root.right;
+
+			while (succ.left != null) {
+				succParent = succ;
+				succ = succ.left;
+			}
+
+			// Delete successor. Since successor
+			// is always left child of its parent
+			// we can safely make successor's right
+			// right child as left of its parent.
+			// If there is no succ, then assign
+			// succ->right to succParent->right
+			if (succParent != root)
+				succParent.left = succ.right;
+			else
+				succParent.right = succ.right;
+
+			// Copy Successor Data to root
+			root.key = succ.key;
+			root.value = succ.value;
+			size--;
+
+			return root;
+		}
 	}
 
 	@Override
